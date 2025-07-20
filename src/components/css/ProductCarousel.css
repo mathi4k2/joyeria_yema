@@ -1,0 +1,344 @@
+.product-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 800px; /* Ajusta según el diseño */
+    min-height: 400px; /* Asegura un espacio suficiente */
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: inherit;
+    color: inherit;
+}
+
+.product-carousel.light-mode {
+    background-color: transparent;
+    color: #2d3748;
+}
+
+.product-carousel.dark-mode {
+    background-color: transparent;
+    color: #f7fafc;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%; /* Ajustado para asegurar el ancho completo */
+    overflow: hidden;
+}
+
+.product-card {
+    flex: 0 0 100%;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    transition: all 0.4s ease;
+    background-color: inherit;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.product-card:hover::before {
+    left: 100%;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+    filter: brightness(1.02) contrast(1.05);
+    position: relative;
+    z-index: 1;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    filter: brightness(1.1) contrast(1.1);
+}
+
+.contact-link {
+    display: block;
+    margin-top: 5px;
+    text-decoration: underline;
+}
+
+.product-carousel.light-mode .contact-link {
+    color: #3182ce;
+}
+
+.product-carousel.dark-mode .contact-link {
+    color: #63b3ed;
+}
+
+.contact-link:hover {
+    opacity: 0.8;
+}
+
+.arrow {
+    font-size: 2.5em;
+    background-color: #2d3748;
+    border-radius: 50%;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.arrow:hover {
+    background-color: #3182ce;
+    color: #fff;
+}
+
+.arrow-left {
+    left: 10px;
+}
+
+.arrow-right {
+    right: 10px;
+}
+
+
+.category-buttons {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center; /* Centrar los botones */
+}
+
+.category-button {
+    padding: 14px 28px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.category-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.category-button:hover::before {
+    left: 100%;
+}
+
+.category-button.light {
+    background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+    color: #2d3748;
+    border-color: #e2e8f0;
+}
+
+.category-button.dark {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    color: #f7fafc;
+}
+
+.category-button.active {
+    background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(49, 130, 206, 0.3);
+}
+
+.category-button:hover {
+    background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(49, 130, 206, 0.3);
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: grey !important;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    animation: slideIn 0.4s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-content img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute; /* Relativo al modal */
+    top: 10px; /* Espaciado desde la parte superior del modal */
+    right: 10px; /* Espaciado desde el borde derecho */
+    color: #333; /* Color del botón */
+    font-weight: bold;
+}
+
+.close-button:hover {
+    color: #e53e3e;
+}
+
+.product-carousel.dark-mode .close-button {
+    color: #f7fafc;
+}
+
+.product-carousel.dark-mode .close-button:hover {
+    color: #fc8181;
+}
+
+/* Estilos de los puntitos en tema claro */
+.product-carousel.light-mode .slick-dots li button:before {
+    color: grey;
+}
+
+.product-carousel.light-mode .slick-dots li.slick-active button:before {
+    color: black;
+}
+
+/* Estilos de los puntitos en tema oscuro */
+.product-carousel.dark-mode .slick-dots li button:before {
+    color: #aaa;
+}
+
+.product-carousel.dark-mode .slick-dots li.slick-active button:before {
+    color: white;
+}
+/* Estilos del modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    color: #333; /* Color predeterminado */
+}
+
+.product-carousel.dark-mode .modal-content {
+    background-color: #2d3748;
+    color: #f7fafc;
+}
+
+.modal-content img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #2d3748;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.product-carousel.dark-mode .close-button {
+    color: #f8f9fa;
+}
+
+.close-button:hover {
+    color: red;
+}

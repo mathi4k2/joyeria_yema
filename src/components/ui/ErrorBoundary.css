@@ -1,0 +1,288 @@
+/* ErrorBoundary.css */
+.error-boundary {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+}
+
+.error-boundary.dark {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+}
+
+.error-container {
+    max-width: 600px;
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    animation: slideInUp 0.6s ease-out;
+}
+
+.error-boundary.dark .error-container {
+    background: #2d3748;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.error-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #fed7d7, #feb2b2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    color: #c53030;
+    font-size: 2.5rem;
+    animation: pulse 2s infinite;
+}
+
+.error-boundary.dark .error-icon {
+    background: linear-gradient(135deg, #742a2a, #c53030);
+    color: #fed7d7;
+}
+
+.error-container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 20px;
+}
+
+.error-boundary.dark .error-container h1 {
+    color: #f7fafc;
+}
+
+.error-message {
+    font-size: 1.1rem;
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.error-boundary.dark .error-message {
+    color: #cbd5e0;
+}
+
+/* Detalles del error (solo desarrollo) */
+.error-details {
+    margin: 30px 0;
+    text-align: left;
+}
+
+.error-details summary {
+    cursor: pointer;
+    padding: 15px;
+    background: #f7fafc;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #2d3748;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.error-boundary.dark .error-details summary {
+    background: #4a5568;
+    color: #f7fafc;
+    border-color: #4a5568;
+}
+
+.error-details summary:hover {
+    background: #edf2f7;
+}
+
+.error-boundary.dark .error-details summary:hover {
+    background: #2d3748;
+}
+
+.error-stack {
+    margin-top: 15px;
+    padding: 20px;
+    background: #1a202c;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    overflow-x: auto;
+}
+
+.error-stack h4 {
+    color: #63b3ed;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.error-stack pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Botones de acción */
+.error-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.btn-retry,
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-retry {
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+    color: white;
+}
+
+.btn-retry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(49, 130, 206, 0.3);
+}
+
+.btn-back {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.error-boundary.dark .btn-back {
+    background: #4a5568;
+    color: #f7fafc;
+}
+
+.btn-back:hover {
+    background: #cbd5e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.error-boundary.dark .btn-back:hover {
+    background: #2d3748;
+}
+
+/* Sección de ayuda */
+.error-help {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f0fff4;
+    border-radius: 8px;
+    border: 1px solid #9ae6b4;
+}
+
+.error-boundary.dark .error-help {
+    background: #1a202c;
+    border-color: #38a169;
+}
+
+.error-help p {
+    font-weight: 600;
+    color: #22543d;
+    margin-bottom: 15px;
+}
+
+.error-boundary.dark .error-help p {
+    color: #9ae6b4;
+}
+
+.error-help ul {
+    text-align: left;
+    color: #2f855a;
+    line-height: 1.6;
+}
+
+.error-boundary.dark .error-help ul {
+    color: #68d391;
+}
+
+.error-help li {
+    margin-bottom: 8px;
+    padding-left: 5px;
+}
+
+/* Animaciones */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .error-container {
+        padding: 30px 20px;
+    }
+    
+    .error-container h1 {
+        font-size: 1.75rem;
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-retry,
+    .btn-back {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-boundary {
+        padding: 10px;
+    }
+    
+    .error-container {
+        padding: 25px 15px;
+    }
+    
+    .error-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .error-container h1 {
+        font-size: 1.5rem;
+    }
+    
+    .error-message {
+        font-size: 1rem;
+    }
+} 

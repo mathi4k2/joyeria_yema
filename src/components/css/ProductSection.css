@@ -1,0 +1,55 @@
+.product-section {
+    padding: 20px 40px;
+}
+
+.category-buttons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.category-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+    /* Transición suave de 0.5s para fondo, color y borde */
+}
+
+.category-button.light {
+    background-color: #fff;
+    color: #333;
+}
+
+.category-button.dark {
+    background-color: #333;
+    color: #fff;
+}
+
+.category-button.active {
+    background-color: #FFD700;
+    color: #333;
+    border: none;
+}
+
+.category-button:hover {
+    background-color: #FFD700;
+    color: #333;
+}
+
+.product-display {
+    text-align: left;
+    font-size: 1.2em;
+    color: inherit;
+    margin-top: 20px;
+}
+.category-buttons {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;    /* Centra verticalmente si es necesario */
+    gap: 20px;              /* Espaciado entre botones */
+    margin-bottom: 20px;
+    width: 100%;            /* Asegura que ocupe el espacio disponible */
+}
