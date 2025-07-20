@@ -32,6 +32,18 @@
     margin-right: auto; /* Mantiene el logo a la izquierda */
 }
 
+.logo-link {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.logo-link:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
 .logo-img {
     height: 100%; 
     width: auto; 

@@ -1,7 +1,7 @@
 {
-  "short_name": "Relojería Benítez",
-  "name": "Relojería Benítez - Relojes y Joyas en Encarnación",
-  "description": "Venta de relojes y joyas en Encarnación, Paraguay. Servicio técnico, mantenimiento y garantía.",
+  "short_name": "Yema Joyería",
+  "name": "Yema Joyería - Relojes y Joyas",
+  "description": "Catálogo de relojes y joyas de alta calidad en Encarnación, Paraguay",
   "icons": [
     {
       "src": "favicon.ico",
@@ -12,18 +12,18 @@
       "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192",
-      "purpose": "any maskable"
+      "purpose": "maskable any"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512",
-      "purpose": "any maskable"
+      "purpose": "maskable any"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#3182ce",
+  "theme_color": "#1a202c",
   "background_color": "#ffffff",
   "orientation": "portrait-primary",
   "scope": "/",
@@ -31,44 +31,16 @@
   "categories": ["shopping", "business", "lifestyle"],
   "screenshots": [
     {
-      "src": "screenshot-wide.png",
+      "src": "screenshot-desktop.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "screenshot-narrow.png",
-      "sizes": "750x1334",
+      "src": "screenshot-mobile.png",
+      "sizes": "375x667",
       "type": "image/png",
       "form_factor": "narrow"
     }
-  ],
-  "shortcuts": [
-    {
-      "name": "Inventario",
-      "short_name": "Productos",
-      "description": "Ver catálogo de productos",
-      "url": "/inventario",
-      "icons": [
-        {
-          "src": "logo192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Contacto",
-      "short_name": "Contacto",
-      "description": "Contactar con la relojería",
-      "url": "/contacto",
-      "icons": [
-        {
-          "src": "logo192.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
+  ]
 }

@@ -1,0 +1,58 @@
+/* Lazy Image Styles */
+.lazy-image-container {
+    position: relative;
+    overflow: hidden;
+    background: #f7fafc;
+    border-radius: 8px;
+}
+
+.lazy-image-container.dark {
+    background: #2d3748;
+}
+
+.image-skeleton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.lazy-image-container.dark .image-skeleton {
+    background: linear-gradient(90deg, #4a5568 25%, #2d3748 50%, #4a5568 75%);
+    background-size: 200% 100%;
+}
+
+.lazy-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.lazy-image.loading {
+    opacity: 0;
+}
+
+.lazy-image.loaded {
+    opacity: 1;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .lazy-image-container {
+        border-radius: 6px;
+    }
+} 

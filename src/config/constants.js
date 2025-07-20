@@ -34,9 +34,11 @@ export const APP_CONFIG = {
 
 // Configuración de API
 export const API_CONFIG = {
-    baseUrl: 'https://docs.google.com/spreadsheets/d/1EIzoN40uaLzFxx13yT2ZX3XVBlNiiywOUdKtRBT-JjQ/gviz/tq?tqx=out:json',
-    timeout: 10000, // 10 segundos
-    retryAttempts: 3,
+    baseUrl: 'https://docs.google.com/spreadsheets/d/1EIzoN40uaLzFxx13yT2ZX3XVBlNiiywOUdKtRBT-JjQ/gviz/tq?tqx=out:json&tq=SELECT%20*',
+    novedadesUrl: 'https://docs.google.com/spreadsheets/d/1EIzoN40uaLzFxx13yT2ZX3XVBlNiiywOUdKtRBT-JjQ/gviz/tq?tqx=out:json&gid=45575286&tq=SELECT%20*',
+    imagesUrl: 'https://docs.google.com/spreadsheets/d/1EIzoN40uaLzFxx13yT2ZX3XVBlNiiywOUdKtRBT-JjQ/gviz/tq?tqx=out:json&gid=2041518082&tq=SELECT%20*',
+    timeout: 5000, // 5 segundos para mejor UX
+    retryAttempts: 2,
     cacheTime: 5 * 60 * 1000, // 5 minutos
     headers: {
         'Cache-Control': 'no-cache'
@@ -55,7 +57,7 @@ export const VALIDATION_CONFIG = {
             pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         },
         telefono: {
-            pattern: /^[\+]?[0-9\s\-\(\)]{8,15}$/
+            pattern: /^(\+595|595)?[0-9]{8,9}$/
         },
         mensaje: {
             minLength: 10,
@@ -209,7 +211,7 @@ export const ANALYTICS_CONFIG = {
     }
 };
 
-export default {
+const CONFIG = {
     APP_CONFIG,
     API_CONFIG,
     VALIDATION_CONFIG,
@@ -224,4 +226,6 @@ export default {
     ERROR_MESSAGES,
     STORAGE_KEYS,
     ANALYTICS_CONFIG
-}; 
+};
+
+export default CONFIG; 

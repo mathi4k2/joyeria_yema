@@ -1,6 +1,6 @@
-# Relojería Benítez - Sitio Web
+# Yema Joyería - Sitio Web Optimizado
 
-Sitio web moderno y responsive para Relojería Benítez, especializada en la venta de relojes y joyas en Encarnación, Paraguay.
+Sitio web moderno y optimizado para Joyería y Relojería Yema, construido con React y optimizado para performance.
 
 ## 🚀 Características
 
@@ -11,36 +11,72 @@ Sitio web moderno y responsive para Relojería Benítez, especializada en la ven
 - **Diseño Responsive**: Optimizado para todos los dispositivos
 - **Accesibilidad**: Cumple con estándares WCAG 2.1
 - **SEO Optimizado**: Meta tags, Open Graph y estructura semántica
+- **Visualizador de PDF**: Para catálogos y documentos técnicos
+- **Carousel Interactivo**: Presentación dinámica de productos
 
 ### 🛠️ Tecnologías Utilizadas
 - **React 18** - Biblioteca de interfaz de usuario
-- **React Router** - Navegación entre páginas
-- **Framer Motion** - Animaciones fluidas
+- **React Router v6** - Navegación entre páginas
+- **Framer Motion** - Animaciones fluidas y transiciones
 - **Context API** - Gestión de estado global
+- **React Slick** - Carousel y sliders
+- **React PDF Viewer** - Visualización de documentos PDF
 - **CSS3** - Estilos modernos con Grid y Flexbox
 - **Font Awesome** - Iconografía profesional
 
 ### 📱 Características Técnicas
 - **PWA Ready** - Manifest y service worker configurados
-- **Lazy Loading** - Carga optimizada de componentes
+- **Lazy Loading** - Carga optimizada de componentes e imágenes
 - **Error Boundaries** - Manejo elegante de errores
-- **Cache Inteligente** - Almacenamiento local de datos
-- **Validación Avanzada** - Hooks personalizados para formularios
-- **Performance Optimized** - Intersection Observer y debouncing
+- **Cache Inteligente** - Almacenamiento local de datos con expiración
+- **Validación Avanzada** - Hooks personalizados para formularios con debounce
+- **Performance Optimized** - Intersection Observer, memoización y code splitting
+- **TypeScript Ready** - Preparado para migración a TS
 
 ## 🏗️ Estructura del Proyecto
 
 ```
 src/
-├── components/          # Componentes reutilizables
-│   ├── css/            # Estilos de componentes
-│   ├── ui/             # Componentes de interfaz
-│   └── ...
-├── context/            # Context API y estado global
-├── hooks/              # Hooks personalizados
-├── config/             # Configuraciones y constantes
-├── imgs/               # Imágenes estáticas
-└── ...
+├── components/              # Componentes reutilizables
+│   ├── layout/             # Componentes de estructura
+│   │   ├── Navbar/
+│   │   ├── Footer/
+│   │   └── Layout.js
+│   ├── features/           # Componentes por funcionalidad
+│   │   ├── products/       # Componentes relacionados con productos
+│   │   ├── contact/        # Componentes de contacto
+│   │   ├── home/           # Componentes de la página principal
+│   │   └── inventory/      # Componentes de inventario
+│   ├── ui/                 # Componentes de interfaz básicos
+│   │   ├── Button/
+│   │   ├── Card/
+│   │   ├── Modal/
+│   │   ├── LoadingSpinner/
+│   │   ├── SkeletonLoader/ # Componentes de skeleton loading
+│   │   ├── LazyImage/      # Imágenes con lazy loading
+│   │   └── ErrorBoundary/
+│   └── shared/             # Componentes compartidos
+├── hooks/                  # Hooks personalizados
+│   ├── useFormValidation.js
+│   ├── useOptimizedForm.js # Hook optimizado para formularios
+│   └── useProductos.js
+├── context/                # Context API y estado global
+│   └── AppContext.js       # Context optimizado
+├── utils/                  # Utilidades y servicios
+│   ├── api.js              # Servicio de API centralizado
+│   ├── transformers.js     # Transformadores de datos
+│   └── errorHandler.js     # Manejo centralizado de errores
+├── config/                 # Configuración
+│   ├── constants.js        # Configuración centralizada
+│   └── webpack.config.js   # Configuración de build
+├── assets/                 # Recursos estáticos
+│   ├── images/
+│   ├── icons/
+│   └── documents/
+└── styles/                 # Estilos globales
+    ├── globals.css
+    ├── variables.css
+    └── themes.css
 ```
 
 ## 🚀 Instalación y Uso
@@ -52,10 +88,10 @@ src/
 ### Instalación
 ```bash
 # Clonar el repositorio
-git clone https://github.com/tu-usuario/relojeria-benitez.git
+git clone https://github.com/tu-usuario/yema-joyeria.git
 
 # Navegar al directorio
-cd relojeria-benitez
+cd yema-joyeria
 
 # Instalar dependencias
 npm install
@@ -66,11 +102,38 @@ npm start
 
 ### Scripts Disponibles
 ```bash
-npm start          # Inicia el servidor de desarrollo
-npm run build      # Construye la aplicación para producción
-npm run test       # Ejecuta las pruebas
-npm run eject      # Expone la configuración de webpack
+npm start              # Inicia el servidor de desarrollo
+npm run build          # Construye la aplicación para producción
+npm run build:optimized # Build optimizado sin source maps
+npm run build:analyze  # Build con análisis del bundle
+npm test               # Ejecuta las pruebas
+npm run test:coverage  # Tests con cobertura
+npm run lint           # Ejecuta el linter
+npm run lint:fix       # Corrige errores de linting
+npm run format         # Formatea el código
+npm run eject          # Expone la configuración de webpack
 ```
+
+## 🚀 Optimizaciones Implementadas
+
+### 1. **Performance**
+- **API Service Centralizado**: Caché inteligente, prevención de peticiones duplicadas
+- **Lazy Loading**: Imágenes y componentes cargan bajo demanda
+- **Memoización**: React.memo, useMemo y useCallback optimizados
+- **Code Splitting**: Bundle dividido automáticamente
+- **Skeleton Loading**: Mejor percepción de velocidad
+
+### 2. **UX Mejorada**
+- **Manejo de Errores**: Error boundaries y mensajes amigables
+- **Validación Inteligente**: Formularios con debounce y feedback inmediato
+- **Animaciones Suaves**: Transiciones optimizadas con Framer Motion
+- **Responsive Design**: Optimizado para todos los dispositivos
+
+### 3. **Arquitectura**
+- **Modular**: Separación clara de responsabilidades
+- **Reutilizable**: Componentes y utilidades compartidas
+- **Escalable**: Preparado para crecimiento
+- **Mantenible**: Código limpio y documentado
 
 ## 📊 Configuración de Datos
 
@@ -109,7 +172,8 @@ El proyecto utiliza Google Sheets como base de datos. Para configurar:
 
 ### Colores y Temas
 Los colores principales se pueden modificar en:
-- `src/components/css/` - Archivos CSS de componentes
+- `src/styles/variables.css` - Variables CSS globales
+- `src/styles/themes.css` - Configuración de temas
 - `src/config/constants.js` - Configuración de temas
 
 ### Configuración de Contacto
@@ -126,8 +190,8 @@ Actualiza la información de contacto en:
 
 ### Despliegue
 ```bash
-# Construir para producción
-npm run build
+# Construir para producción optimizado
+npm run build:optimized
 
 # Los archivos estarán en build/
 ```
@@ -157,7 +221,7 @@ npm run build
 npm test
 
 # Ejecutar pruebas con coverage
-npm test -- --coverage
+npm run test:coverage
 
 # Ejecutar pruebas en modo watch
 npm test -- --watch
@@ -166,17 +230,20 @@ npm test -- --watch
 ## 📈 Performance
 
 ### Métricas Objetivo
-- **Lighthouse Score**: >90 en todas las categorías
-- **First Contentful Paint**: <1.5s
-- **Largest Contentful Paint**: <2.5s
+- **Lighthouse Score**: >95 en todas las categorías
+- **First Contentful Paint**: <1.2s
+- **Largest Contentful Paint**: <2.0s
 - **Cumulative Layout Shift**: <0.1
 
 ### Optimizaciones Implementadas
-- Lazy loading de componentes
-- Optimización de imágenes
-- Cache inteligente
-- Bundle splitting
-- Code splitting
+- Lazy loading de componentes e imágenes
+- Optimización de imágenes con fallback
+- Cache inteligente con expiración
+- Bundle splitting automático
+- Code splitting por rutas
+- Memoización de componentes
+- Skeleton loading
+- Error boundaries
 
 ## 🔒 Seguridad
 
@@ -186,44 +253,42 @@ npm test -- --watch
 - Headers de seguridad
 - CSP configurado
 - HTTPS obligatorio
+- Protección contra XSS
 
-## 📞 Soporte
+## 🚀 Roadmap
 
-### Contacto
-- **Email**: info@relojeriabenitez.com
+### Próximas Mejoras
+- [ ] Migración a TypeScript
+- [ ] Implementación de tests unitarios
+- [ ] Integración con CMS (Strapi/Sanity)
+- [ ] Sistema de notificaciones push
+- [ ] Integración con WhatsApp Business API
+- [ ] Panel de administración
+- [ ] Sistema de reservas online
+- [ ] Integración con pasarelas de pago
+
+### Mejoras de Performance
+- [x] Implementación de React.memo
+- [x] Optimización de imágenes con lazy loading
+- [ ] Service Worker para cache offline
+- [x] Lazy loading de componentes
+- [x] Bundle analyzer
+- [x] Skeleton loading
+- [x] Error boundaries mejorados
+
+## 📞 Contacto
+
+- **Email**: info@yemajoyeria.com
 - **Teléfono**: +595 71 123 456
 - **Dirección**: Circuito Comercial, Encarnación, Paraguay
 
-### Reportar Issues
-1. Verifica que el issue no esté ya reportado
-2. Usa el template de issue
-3. Incluye pasos para reproducir
-4. Adjunta capturas de pantalla si es necesario
+## 🙏 Agradecimientos
 
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📋 Changelog
-
-### v1.0.0 (2024-01-XX)
-- ✨ Lanzamiento inicial
-- 🎨 Diseño responsive completo
-- 📱 Soporte PWA
-- 🔧 Sistema de validación avanzado
-- 🛡️ Error boundaries implementados
-- ⚡ Optimizaciones de performance
+- React Team por el framework
+- Framer Motion por las animaciones
+- Google Sheets por la API
+- Comunidad de desarrolladores
 
 ---
 
-**Desarrollado con ❤️ para Relojería Benítez**
+**Desarrollado con ❤️ para Yema Joyería**

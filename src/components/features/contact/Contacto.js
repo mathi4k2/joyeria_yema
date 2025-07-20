@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useAppContext } from '../context/AppContext';
-import './css/Contacto.css';
+import { useAppContext } from '../../../context/AppContext';
+import './Contacto.css';
 
 const Contacto = () => {
     const { darkMode } = useAppContext();
@@ -32,7 +32,7 @@ const Contacto = () => {
                 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Ingresa un email válido';
                 return '';
             case 'telefono':
-                if (value && !/^[\+]?[0-9\s\-\(\)]{8,15}$/.test(value)) {
+                if (value && !/^[+]?[0-9\s\-()]{8,15}$/.test(value)) {
                     return 'Ingresa un teléfono válido';
                 }
                 return '';
@@ -144,7 +144,7 @@ const Contacto = () => {
             icon: 'fas fa-map-marker-alt',
             title: 'Dirección',
             content: 'Circuito Comercial, Encarnación, Paraguay',
-            link: 'https://maps.app.goo.gl/Xa8eZE13Nqsqj9p16',
+            link: 'https://www.google.com/maps/place/Joyer%C3%ADa+y+Relojer%C3%ADa+Yema/@-27.3606873,-55.8516896,18z/data=!4m10!1m2!2m1!1syema!3m6!1s0x9457bf8b030d9f63:0x42c969da836d6d04!8m2!3d-27.3606873!4d-55.8497951!15sCgR5ZW1hkgEHamV3ZWxlcqoBUAoNL2cvMTFkeGQyOGw3NgoJL20vMDNiZ3JfEAEqCCIEeWVtYSgOMh4QASIaoCkN0ln3IaDFY7MAZQ3-WvKzRUgfm798fVMyCBACIgR5ZW1h4AEA!16s%2Fg%2F1jgm1mjzq?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D',
             ariaLabel: 'Ver ubicación en Google Maps'
         },
         {
@@ -157,8 +157,8 @@ const Contacto = () => {
         {
             icon: 'fas fa-envelope',
             title: 'Email',
-            content: 'info@relojeriabenitez.com',
-            link: 'mailto:info@relojeriabenitez.com',
+            content: 'info@yemajoyeria.com',
+            link: 'mailto:info@yemajoyeria.com',
             ariaLabel: 'Enviar email'
         },
         {
@@ -393,15 +393,15 @@ const Contacto = () => {
                             <div className="mapa-container" ref={mapRef}>
                                 {mapLoaded ? (
                                     <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3609.1234567890123!2d-55.8666667!3d-27.3333333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9457c9e2b1e1b1b1%3A0x1234567890abcdef!2sCircuito%20Comercial%2C%20Encarnaci%C3%B3n%2C%20Paraguay!5e0!3m2!1ses!2spy!4v1718040000000!5m2!1ses!2spy"
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3609.1234567890123!2d-55.8516896!3d-27.3606873!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9457bf8b030d9f63%3A0x42c969da836d6d04!2sJoyer%C3%ADa%20y%20Relojer%C3%ADa%20Yema!5e0!3m2!1ses!2spy!4v1718040000000!5m2!1ses!2spy"
                                         width="100%"
                                         height="400"
                                         style={{ border: 0 }}
                                         allowFullScreen=""
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
-                                        title="Ubicación Relojería Benítez en Google Maps"
-                                        aria-label="Mapa mostrando la ubicación de Relojería Benítez en Circuito Comercial, Encarnación"
+                                        title="Ubicación Joyería y Relojería Yema en Google Maps"
+                                        aria-label="Mapa mostrando la ubicación de Joyería y Relojería Yema en Circuito Comercial, Encarnación"
                                     />
                                 ) : (
                                     <div className="mapa-placeholder" aria-label="Cargando mapa">
@@ -411,7 +411,7 @@ const Contacto = () => {
                                 )}
                                 <div className="mapa-overlay">
                                     <a 
-                                        href="https://maps.app.goo.gl/Xa8eZE13Nqsqj9p16" 
+                                        href="https://www.google.com/maps/place/Joyer%C3%ADa+y+Relojer%C3%ADa+Yema/@-27.3606873,-55.8516896,18z/data=!4m10!1m2!2m1!1syema!3m6!1s0x9457bf8b030d9f63:0x42c969da836d6d04!8m2!3d-27.3606873!4d-55.8497951!15sCgR5ZW1hkgEHamV3ZWxlcqoBUAoNL2cvMTFkeGQyOGw3NgoJL20vMDNiZ3JfEAEqCCIEeWVtYSgOMh4QASIaoCkN0ln3IaDFY7MAZQ3-WvKzRUgfm798fVMyCBACIgR5ZW1h4AEA!16s%2Fg%2F1jgm1mjzq?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
                                         className="btn-ver-mapa"

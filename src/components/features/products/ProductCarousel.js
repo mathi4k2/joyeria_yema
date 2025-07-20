@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../../../context/AppContext';
 import Slider from 'react-slick';
-import './css/ProductCarousel.css';
+import './ProductCarousel.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 

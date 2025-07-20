@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAppContext } from '../context/AppContext';
-import './css/Footer.css';
-import logo from '../imgs/loguito.png';
+import { useAppContext } from '../../context/AppContext';
+import './Footer/Footer.css';
+import logo from '../../imgs/loguito.png';
 
 const Footer = () => {
     const { darkMode } = useAppContext();

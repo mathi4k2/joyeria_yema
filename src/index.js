@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import { BrowserRouter as Router } from 'react-router-dom'; // Importa el Router
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router> {/* Envuelve App con Router */}
+    <BrowserRouter>
       <App />
-    </Router>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
-reportWebVitals();
+
+
+// Reportar métricas de Web Vitals
+reportWebVitals(console.log);

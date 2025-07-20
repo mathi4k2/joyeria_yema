@@ -10,8 +10,8 @@ const validationRules = {
     },
     phone: (value) => {
         if (!value) return '';
-        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{8,15}$/;
-        return !phoneRegex.test(value) ? 'Ingresa un teléfono válido' : '';
+        const phoneRegex = /^(\+595|595)?[0-9]{8,9}$/;
+        return !phoneRegex.test(value) ? 'Ingresa un teléfono válido de Paraguay (+595 o 595 seguido de 8-9 dígitos)' : '';
     },
     minLength: (min) => (value) => {
         if (!value) return '';

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
-import '../css/ProductCard.css';
+import LazyImage from '../../ui/LazyImage';
+import './ProductCard.css';
 
-const ProductCard = ({ producto, darkMode, onClick }) => {
+const ProductCard = memo(({ producto, darkMode, onClick }) => {
     return (
         <motion.div
             className={`producto-card ${darkMode ? 'dark' : 'light'}`}
@@ -12,12 +13,11 @@ const ProductCard = ({ producto, darkMode, onClick }) => {
             layout
         >
             <div className="producto-imagen">
-                <img 
+                <LazyImage 
                     src={producto.imagen} 
                     alt={producto.nombre}
-                    onError={(e) => {
-                        e.target.src = '/placeholder-product.png';
-                    }}
+                    darkMode={darkMode}
+                    fallbackSrc="/placeholder-product.png"
                 />
             </div>
             <div className="producto-info">
@@ -34,6 +34,8 @@ const ProductCard = ({ producto, darkMode, onClick }) => {
             </div>
         </motion.div>
     );
-};
+});
+
+ProductCard.displayName = 'ProductCard';
 
 export default ProductCard; 

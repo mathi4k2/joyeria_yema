@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { fetchProductos } from '../utils/api';
+import { transformProductos } from '../utils/transformers';
+import { API_CONFIG, FILTROS_INICIALES } from '../config/constants';
 
 const AppContext = createContext();
 
@@ -9,16 +12,8 @@ const initialState = {
     error: null,
     lastFetch: null,
     retryCount: 0,
-    filtros: {
-        marca: '',
-        malla: '',
-        estilo: '',
-        tipo: '',
-        material: '',
-        precio: 'asc',
-    },
+    filtros: FILTROS_INICIALES,
     categoriaActiva: 'relojes',
-    cache: new Map(),
     isOnline: navigator.onLine
 };
 
@@ -60,20 +55,8 @@ const appReducer = (state, action) => {
             return { 
                 ...state, 
                 categoriaActiva: action.payload,
-                filtros: {
-                    marca: '',
-                    malla: '',
-                    estilo: '',
-                    tipo: '',
-                    material: '',
-                    precio: 'asc',
-                }
+                filtros: FILTROS_INICIALES
             };
-        
-        case 'SET_CACHE':
-            const newCache = new Map(state.cache);
-            newCache.set(action.payload.key, action.payload.data);
-            return { ...state, cache: newCache };
         
         case 'SET_ONLINE_STATUS':
             return { ...state, isOnline: action.payload };
@@ -86,39 +69,7 @@ const appReducer = (state, action) => {
     }
 };
 
-// Función para limpiar datos de Google Sheets
-const cleanGoogleSheetsData = (text) => {
-    try {
-        // Remover el prefijo de Google Sheets
-        const jsonStart = text.indexOf('{');
-        const jsonEnd = text.lastIndexOf('}') + 1;
-        const jsonString = text.substring(jsonStart, jsonEnd);
-        
-        return JSON.parse(jsonString);
-    } catch (error) {
-        throw new Error('Error al procesar los datos de Google Sheets');
-    }
-};
 
-// Función para transformar los datos
-const transformProductos = (rows) => {
-    return rows.map((row, index) => ({
-        id: row.c[0]?.v || `producto-${index}`,
-        nombre: row.c[1]?.v || '',
-        precio: parseFloat(row.c[2]?.v || 0),
-        imagen: row.c[3]?.v || '',
-        categoria: row.c[4]?.v || '',
-        tipo: row.c[5]?.v || '',
-        estilo: row.c[6]?.v || '',
-        malla: row.c[7]?.v || '',
-        material: row.c[8]?.v || '',
-        marca: row.c[9]?.v || '',
-        descripcion: row.c[10]?.v || '',
-        stock: parseInt(row.c[11]?.v || 0),
-        destacado: row.c[12]?.v === 'true' || false,
-        fechaAgregado: row.c[13]?.v || new Date().toISOString()
-    })).filter(producto => producto.nombre && producto.precio > 0);
-};
 
 export const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(appReducer, initialState);
@@ -137,35 +88,19 @@ export const AppProvider = ({ children }) => {
         };
     }, []);
 
-    const toggleDarkMode = useCallback(() => {
+    const toggleDarkMode = () => {
         dispatch({ type: 'TOGGLE_DARK_MODE' });
-    }, []);
+    };
 
-    const fetchProductos = useCallback(async (forceRefresh = false) => {
-        const cacheKey = 'productos';
-        const cacheTime = 5 * 60 * 1000; // 5 minutos
-        const now = Date.now();
-
-        // Verificar cache si no es un refresh forzado
-        if (!forceRefresh && state.cache.has(cacheKey)) {
-            const cached = state.cache.get(cacheKey);
-            if (now - cached.timestamp < cacheTime) {
-                dispatch({ type: 'SET_PRODUCTOS', payload: cached.data });
-                return;
-            }
-        }
-
+    const fetchProductosData = async (forceRefresh = false) => {
         // Verificar conexión a internet
         if (!state.isOnline) {
-            dispatch({ 
-                type: 'SET_ERROR', 
-                payload: 'No hay conexión a internet. Verifica tu conexión e intenta nuevamente.' 
-            });
+            dispatch({ type: 'SET_ERROR', payload: 'No hay conexión a internet' });
             return;
         }
 
         // Verificar límite de reintentos
-        if (state.retryCount >= 3) {
+        if (state.retryCount >= API_CONFIG.retryAttempts) {
             dispatch({ 
                 type: 'SET_ERROR', 
                 payload: 'Se han agotado los intentos de conexión. Por favor, recarga la página.' 
@@ -177,110 +112,53 @@ export const AppProvider = ({ children }) => {
         dispatch({ type: 'CLEAR_ERROR' });
 
         try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos timeout
-
-            const response = await fetch(
-                'https://docs.google.com/spreadsheets/d/1EIzoN40uaLzFxx13yT2ZX3XVBlNiiywOUdKtRBT-JjQ/gviz/tq?tqx=out:json',
-                { 
-                    signal: controller.signal,
-                    headers: {
-                        'Cache-Control': 'no-cache'
-                    }
-                }
-            );
-
-            clearTimeout(timeoutId);
-
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
-            }
-
-            const text = await response.text();
-            const json = cleanGoogleSheetsData(text);
-            
-            if (!json.table || !json.table.rows) {
-                throw new Error('Formato de datos inválido');
-            }
-
-            const productos = transformProductos(json.table.rows);
+            const rows = await fetchProductos(forceRefresh);
+            const productos = transformProductos(rows);
 
             if (productos.length === 0) {
                 throw new Error('No se encontraron productos');
             }
 
-            // Guardar en cache
-            dispatch({ 
-                type: 'SET_CACHE', 
-                payload: { 
-                    key: cacheKey, 
-                    data: { 
-                        data: productos, 
-                        timestamp: now 
-                    } 
-                } 
-            });
-
             dispatch({ type: 'SET_PRODUCTOS', payload: productos });
 
         } catch (error) {
             console.error('Error fetching productos:', error);
-            
-            let errorMessage = 'Error al cargar los productos';
-            
-            if (error.name === 'AbortError') {
-                errorMessage = 'La solicitud tardó demasiado. Verifica tu conexión.';
-            } else if (error.message.includes('HTTP')) {
-                errorMessage = 'Error de conexión con el servidor.';
-            } else if (error.message.includes('Google Sheets')) {
-                errorMessage = 'Error al procesar los datos.';
-            } else if (error.message.includes('No se encontraron')) {
-                errorMessage = 'No hay productos disponibles en este momento.';
-            }
-
-            dispatch({ type: 'SET_ERROR', payload: errorMessage });
+            dispatch({ type: 'SET_ERROR', payload: 'Error al cargar los productos' });
         }
-    }, [state.cache, state.isOnline, state.retryCount]);
+    };
 
-    const retryFetch = useCallback(() => {
+
+
+    const retryFetch = () => {
         dispatch({ type: 'RESET_RETRY_COUNT' });
-        fetchProductos(true);
-    }, [fetchProductos]);
+        fetchProductosData(true);
+    };
 
-    const setFiltros = useCallback((filtros) => {
+    const setFiltros = (filtros) => {
         dispatch({ type: 'SET_FILTROS', payload: filtros });
-    }, []);
+    };
 
-    const setCategoria = useCallback((categoria) => {
+    const setCategoria = (categoria) => {
         dispatch({ type: 'SET_CATEGORIA', payload: categoria });
-    }, []);
+    };
 
-    const clearError = useCallback(() => {
+    const clearError = () => {
         dispatch({ type: 'CLEAR_ERROR' });
-    }, []);
+    };
 
     // Cargar productos al montar el componente
     useEffect(() => {
-        fetchProductos();
-    }, []);
+        fetchProductosData();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // Reintentar automáticamente cuando se recupera la conexión
-    useEffect(() => {
-        if (state.isOnline && state.error && state.retryCount < 3) {
-            const timer = setTimeout(() => {
-                fetchProductos(true);
-            }, 2000);
 
-            return () => clearTimeout(timer);
-        }
-    }, [state.isOnline, state.error, state.retryCount, fetchProductos]);
 
     const value = {
         ...state,
         toggleDarkMode,
         setFiltros,
         setCategoria,
-        fetchProductos,
+        fetchProductos: fetchProductosData,
         retryFetch,
         clearError
     };

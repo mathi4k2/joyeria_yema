@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAppContext } from '../context/AppContext';
-import { useProductos } from '../hooks/useProductos';
-import ProductCard from './ui/ProductCard';
-import './css/Inventario.css';
+import { useAppContext } from '../../../context/AppContext';
+import { useProductos } from '../../../hooks/useProductos';
+import ProductCard from '../products/ProductCard';
+import './Inventario.css';
 
 const Inventario = () => {
     const { darkMode, categoriaActiva, setCategoria, filtros, setFiltros } = useAppContext();

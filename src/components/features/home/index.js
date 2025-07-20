@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAppContext } from '../context/AppContext';
-import './css/IntroductionSection.css';
-import shopImage from '../imgs/shop.jpg';
+import { useAppContext } from '../../../context/AppContext';
+import './IntroductionSection.css';
+import shopImage from '../../../imgs/shop.jpg';
 
 const IntroductionSection = () => {
     const { darkMode } = useAppContext();
