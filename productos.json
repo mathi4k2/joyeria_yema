@@ -1,0 +1,92 @@
+[
+  {
+      "id": 1,
+      "categoria": "relojes",
+      "marca": "Rolex",
+      "malla": "metal",
+      "estilo": "elegante",
+      "nombre": "Rolex Datejust",
+      "precio": 7000,
+      "imagen": "https://via.placeholder.com/150"
+  },
+  {
+      "id": 2,
+      "categoria": "relojes",
+      "marca": "Tudor",
+      "malla": "cuero",
+      "estilo": "deportivo",
+      "nombre": "Tudor Black Bay",
+      "precio": 3000,
+      "imagen": "https://via.placeholder.com/150"
+  },
+  {
+      "id": 3,
+      "categoria": "relojes",
+      "marca": "Omega",
+      "malla": "metal",
+      "estilo": "elegante",
+      "nombre": "Omega Seamaster",
+      "precio": 5000,
+      "imagen": "https://via.placeholder.com/150"
+  },
+  {
+      "id": 4,
+      "categoria": "relojes",
+      "marca": "Longines",
+      "malla": "cuero",
+      "estilo": "elegante",
+      "nombre": "Longines Master",
+      "precio": 1500,
+      "imagen": "https://via.placeholder.com/150"
+  },
+  {
+      "id": 5,
+      "categoria": "relojes",
+      "marca": "Casio",
+      "malla": "cuero",
+      "estilo": "deportivo",
+      "nombre": "Casio G-Shock",
+      "precio": 200,
+      "imagen": "https://via.placeholder.com/150"
+  },
+  {
+      "id": 6,
+      "categoria": "joyas",
+      "tipo": "anillo",
+      "material": "oro",
+      "estilo": "elegante",
+      "nombre": "Anillo de compromiso",
+      "precio": 1200,
+      "imagen": "https://via.placeholder.com/150"
+  },
+  {
+      "id": 7,
+      "categoria": "joyas",
+      "tipo": "collar",
+      "material": "plata",
+      "estilo": "casual",
+      "nombre": "Collar de plata minimalista",
+      "precio": 300,
+      "imagen": "https://via.placeholder.com/150"
+  },
+  {
+      "id": 8,
+      "categoria": "joyas",
+      "tipo": "pulsera",
+      "material": "oro",
+      "estilo": "elegante",
+      "nombre": "Pulsera de oro 18k",
+      "precio": 800,
+      "imagen": "https://via.placeholder.com/150"
+  },
+  {
+      "id": 9,
+      "categoria": "joyas",
+      "tipo": "arete",
+      "material": "acero",
+      "estilo": "casual",
+      "nombre": "Aretes de acero inoxidable",
+      "precio": 150,
+      "imagen": "https://via.placeholder.com/150"
+  }
+]
