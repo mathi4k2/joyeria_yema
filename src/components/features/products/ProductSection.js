@@ -29,6 +29,10 @@ const ProductSection = () => {
                 const imagesData = transformImages(rows);
                 const categorizedImages = categorizeImages(imagesData);
                 setImages(categorizedImages);
+                // Diagnóstico: log de datos crudos y transformados
+                console.log('rows (raw):', rows);
+                console.log('imagesData (transformed):', imagesData);
+                console.log('categorizedImages:', categorizedImages);
             } catch (error) {
                 console.error('Error al cargar los datos:', error);
                 const errorMessage = handleError(error, 'fetchImages');
@@ -39,9 +43,15 @@ const ProductSection = () => {
         };
 
         loadImages();
-    }, [handleError]); // Agregada dependencia handleError
+    }, []); // Ejecutar solo al montar
 
-    const imagesToDisplay = useMemo(() => images[selectedCategory], [images, selectedCategory]);
+    const imagesToDisplay = useMemo(() => {
+        const imgs = images[selectedCategory];
+        // Diagnóstico: log de imágenes a mostrar y categoría seleccionada
+        console.log('selectedCategory:', selectedCategory);
+        console.log('imagesToDisplay:', imgs);
+        return imgs;
+    }, [images, selectedCategory]);
 
     if (loading) {
         return (
@@ -86,6 +96,7 @@ const ProductSection = () => {
                 </div>
                 <div className="error-container">
                     <p>❌ Error: {error}</p>
+                    <button onClick={() => window.location.reload()} className="btn-retry">Reintentar</button>
                 </div>
             </section>
         );

@@ -37,7 +37,7 @@ export const API_CONFIG = {
     baseUrl: 'https://docs.google.com/spreadsheets/d/1EIzoN40uaLzFxx13yT2ZX3XVBlNiiywOUdKtRBT-JjQ/gviz/tq?tqx=out:json&tq=SELECT%20*',
     novedadesUrl: 'https://docs.google.com/spreadsheets/d/1EIzoN40uaLzFxx13yT2ZX3XVBlNiiywOUdKtRBT-JjQ/gviz/tq?tqx=out:json&gid=45575286&tq=SELECT%20*',
     imagesUrl: 'https://docs.google.com/spreadsheets/d/1EIzoN40uaLzFxx13yT2ZX3XVBlNiiywOUdKtRBT-JjQ/gviz/tq?tqx=out:json&gid=2041518082&tq=SELECT%20*',
-    timeout: 5000, // 5 segundos para mejor UX
+    timeout: 10000, // 10 segundos para mejor UX
     retryAttempts: 2,
     cacheTime: 5 * 60 * 1000, // 5 minutos
     headers: {

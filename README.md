@@ -1,5 +1,7 @@
 # Yema Joyería - Sitio Web Optimizado
 
+[![Deploy en GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-joyeria__yema-blue?logo=github)](https://mathi4k2.github.io/joyeria_yema)
+
 Sitio web moderno y optimizado para Joyería y Relojería Yema, construido con React y optimizado para performance.
 
 ## 🚀 Características
@@ -88,10 +90,10 @@ src/
 ### Instalación
 ```bash
 # Clonar el repositorio
-git clone https://github.com/tu-usuario/yema-joyeria.git
+git clone https://github.com/mathi4k2/joyeria_yema.git
 
 # Navegar al directorio
-cd yema-joyeria
+cd joyeria_yema
 
 # Instalar dependencias
 npm install

@@ -271,16 +271,26 @@ export const fetchNovedades = async () => {
 export const fetchImages = async () => {
     try {
         const data = await apiService.fetchData(API_CONFIG.imagesUrl);
-        
-        // Verificar si los datos tienen la estructura esperada
-        if (data && data.table && data.table.rows) {
+
+        // Permitir cualquier estructura que contenga un array de imágenes
+        if (data && data.table && Array.isArray(data.table.rows)) {
             return data.table.rows;
         }
-        
+        // Si data es un array directamente
+        if (Array.isArray(data)) {
+            return data;
+        }
+        // Si data.rows es un array
+        if (data && Array.isArray(data.rows)) {
+            return data.rows;
+        }
+        // Si data.images es un array
+        if (data && Array.isArray(data.images)) {
+            return data.images;
+        }
         // Si no tiene la estructura esperada, usar datos de fallback
         console.warn('Estructura de datos inesperada, usando datos de fallback');
         throw new Error('Estructura de datos inesperada');
-        
     } catch (error) {
         console.error('Error en fetchImages:', error);
         console.log('Usando datos de fallback para imágenes');

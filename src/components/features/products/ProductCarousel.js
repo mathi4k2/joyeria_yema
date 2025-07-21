@@ -37,7 +37,11 @@ const ProductCarousel = ({ images }) => {
 
     return (
         <div className={`product-carousel ${darkMode ? 'dark-mode' : 'light-mode'}`}>
-            <Slider {...settings} style={{ width: '100%', minHeight: '400px' }}>
+            <Slider
+                key={images.map(img => img.id).join('-')}
+                {...settings}
+                style={{ width: '100%', minHeight: '400px' }}
+            >
                 {images.map((image) => (
                     <div key={image.id} className="product-card" onClick={() => openModal(image)}>
                         <img

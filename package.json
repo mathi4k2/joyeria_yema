@@ -2,6 +2,7 @@
   "name": "yemajoyeria",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://mathi4k2.github.io/joyeria_yema",
   "dependencies": {
     "@react-pdf-viewer/core": "^3.12.0",
     "@react-pdf-viewer/default-layout": "^3.12.0",
@@ -9,6 +10,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "framer-motion": "^11.11.15",
+    "gh-pages": "^6.3.0",
     "pdfjs-dist": "^3.6.172",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -30,7 +32,9 @@
     "lint": "eslint src --ext .js,.jsx",
     "lint:fix": "eslint src --ext .js,.jsx --fix",
     "format": "prettier --write src/**/*.{js,jsx,css,md}",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
