@@ -13,6 +13,14 @@ const Inventario = () => {
         setCategoria(categoria);
     };
 
+    const handleProductClick = (producto) => {
+        // Aquí se puede implementar la lógica para mostrar detalles del producto
+        // Por ejemplo, abrir un modal o navegar a una página de detalles
+        if (process.env.NODE_ENV === 'development') {
+            console.log('Producto seleccionado:', producto);
+        }
+    };
+
     return (
         <div className={`inventario ${darkMode ? 'dark' : 'light'}`}>
             {/* Botones de categoría */}
@@ -125,7 +133,7 @@ const Inventario = () => {
                                 key={producto.id}
                                 producto={producto}
                                 darkMode={darkMode}
-                                onClick={() => console.log('Producto clickeado:', producto)}
+                                onClick={() => handleProductClick(producto)}
                             />
                         ))
                     ) : (

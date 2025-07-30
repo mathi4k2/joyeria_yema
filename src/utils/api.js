@@ -44,11 +44,15 @@ class ApiService {
             }
             
             // Si no tiene la estructura esperada, intentar procesar de otra manera
-            console.warn('Estructura de datos inesperada, intentando procesar...');
+            if (process.env.NODE_ENV === 'development') {
+                console.warn('Estructura de datos inesperada, intentando procesar...');
+            }
             return data;
         } catch (error) {
-            console.error('Error procesando datos de Google Sheets:', error);
-            console.error('Respuesta recibida:', text);
+            if (process.env.NODE_ENV === 'development') {
+                console.error('Error procesando datos de Google Sheets:', error);
+                console.error('Respuesta recibida:', text);
+            }
             throw new Error(`Error al procesar los datos de Google Sheets: ${error.message}`);
         }
     }
@@ -125,8 +129,6 @@ class ApiService {
         const { controller, timeoutId } = this.createAbortController();
 
         try {
-            // console.log('Haciendo fetch a:', url);
-            
             const fetchPromise = fetch(url, {
                 ...options,
                 signal: controller.signal,
@@ -142,17 +144,12 @@ class ApiService {
             const response = await fetchPromise;
             clearTimeout(timeoutId);
 
-            // console.log('Respuesta HTTP:', response.status, response.statusText);
-
             if (!response.ok) {
                 throw new Error(`Error HTTP: ${response.status} - ${response.statusText}`);
             }
 
             const text = await response.text();
-            // console.log('Respuesta recibida (primeros 200 chars):', text.substring(0, 200));
-            
             const data = this.cleanGoogleSheetsData(text);
-            // console.log('Datos procesados:', data);
 
             // Guardar en caché
             this.setCache(cacheKey, data);
@@ -204,12 +201,16 @@ export const fetchProductos = async (forceRefresh = false) => {
         }
         
         // Si no tiene la estructura esperada, usar datos de fallback
-        console.warn('Estructura de datos inesperada, usando datos de fallback');
+        if (process.env.NODE_ENV === 'development') {
+            console.warn('Estructura de datos inesperada, usando datos de fallback');
+        }
         throw new Error('Estructura de datos inesperada');
         
     } catch (error) {
-        console.error('Error en fetchProductos:', error);
-        console.log('Usando datos de fallback para productos');
+        if (process.env.NODE_ENV === 'development') {
+            console.error('Error en fetchProductos:', error);
+            console.log('Usando datos de fallback para productos');
+        }
         // Convertir datos de fallback al formato esperado por el transformador
         const fallbackData = getDefaultData('productos');
         return fallbackData.map((item, index) => ({
@@ -243,12 +244,16 @@ export const fetchNovedades = async () => {
         }
         
         // Si no tiene la estructura esperada, usar datos de fallback
-        console.warn('Estructura de datos inesperada, usando datos de fallback');
+        if (process.env.NODE_ENV === 'development') {
+            console.warn('Estructura de datos inesperada, usando datos de fallback');
+        }
         throw new Error('Estructura de datos inesperada');
         
     } catch (error) {
-        console.error('Error en fetchNovedades:', error);
-        console.log('Usando datos de fallback para novedades');
+        if (process.env.NODE_ENV === 'development') {
+            console.error('Error en fetchNovedades:', error);
+            console.log('Usando datos de fallback para novedades');
+        }
         // Convertir datos de fallback al formato esperado por el transformador
         const fallbackData = getDefaultData('novedades');
         return fallbackData.map((item, index) => ({
@@ -289,11 +294,15 @@ export const fetchImages = async () => {
             return data.images;
         }
         // Si no tiene la estructura esperada, usar datos de fallback
-        console.warn('Estructura de datos inesperada, usando datos de fallback');
+        if (process.env.NODE_ENV === 'development') {
+            console.warn('Estructura de datos inesperada, usando datos de fallback');
+        }
         throw new Error('Estructura de datos inesperada');
     } catch (error) {
-        console.error('Error en fetchImages:', error);
-        console.log('Usando datos de fallback para imágenes');
+        if (process.env.NODE_ENV === 'development') {
+            console.error('Error en fetchImages:', error);
+            console.log('Usando datos de fallback para imágenes');
+        }
         // Convertir datos de fallback al formato esperado por el transformador
         const fallbackData = getDefaultData('images');
         return fallbackData.map((item, index) => ({

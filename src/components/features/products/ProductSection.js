@@ -1,56 +1,32 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useAppContext } from '../../../context/AppContext';
 import { fetchImages } from '../../../utils/api';
 import { transformImages, categorizeImages } from '../../../utils/transformers';
-import { useErrorHandler } from '../../../utils/errorHandler';
+import { useDataLoader } from '../../../hooks/useDataLoader';
 import SkeletonLoader from '../../ui/SkeletonLoader';
 import './ProductSection.css';
 import ProductCarousel from './ProductCarousel';
 
 const ProductSection = () => {
     const { darkMode } = useAppContext();
-    const { handleError } = useErrorHandler();
     const [selectedCategory, setSelectedCategory] = useState('reloj');
-    const [images, setImages] = useState({ reloj: [], joya: [] });
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-    const handleCategoryChange = (category) => {
-        setSelectedCategory(category.toLowerCase()); // Normaliza a minúsculas
+    // Función para cargar y transformar imágenes
+    const loadImages = async () => {
+        const rows = await fetchImages();
+        const imagesData = transformImages(rows);
+        return categorizeImages(imagesData);
     };
 
-    useEffect(() => {
-        const loadImages = async () => {
-            setLoading(true);
-            setError(null);
-            
-            try {
-                const rows = await fetchImages();
-                const imagesData = transformImages(rows);
-                const categorizedImages = categorizeImages(imagesData);
-                setImages(categorizedImages);
-                // Diagnóstico: log de datos crudos y transformados
-                console.log('rows (raw):', rows);
-                console.log('imagesData (transformed):', imagesData);
-                console.log('categorizedImages:', categorizedImages);
-            } catch (error) {
-                console.error('Error al cargar los datos:', error);
-                const errorMessage = handleError(error, 'fetchImages');
-                setError(errorMessage);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // Usar el hook personalizado para cargar datos
+    const { data: images, loading, error, retry } = useDataLoader(loadImages);
 
-        loadImages();
-    }, []); // Ejecutar solo al montar
+    const handleCategoryChange = (category) => {
+        setSelectedCategory(category.toLowerCase());
+    };
 
     const imagesToDisplay = useMemo(() => {
-        const imgs = images[selectedCategory];
-        // Diagnóstico: log de imágenes a mostrar y categoría seleccionada
-        console.log('selectedCategory:', selectedCategory);
-        console.log('imagesToDisplay:', imgs);
-        return imgs;
+        return images?.[selectedCategory] || [];
     }, [images, selectedCategory]);
 
     if (loading) {
@@ -96,7 +72,7 @@ const ProductSection = () => {
                 </div>
                 <div className="error-container">
                     <p>❌ Error: {error}</p>
-                    <button onClick={() => window.location.reload()} className="btn-retry">Reintentar</button>
+                    <button onClick={retry} className="btn-retry">Reintentar</button>
                 </div>
             </section>
         );

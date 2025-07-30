@@ -32,7 +32,9 @@ const Novedades = () => {
             setOfertasEspeciales(ofertasFiltradas.length > 0 ? ofertasFiltradas : ofertasEspecialesDefault);
             
         } catch (error) {
-            console.error('Error al cargar novedades:', error);
+            if (process.env.NODE_ENV === 'development') {
+                console.error('Error al cargar novedades:', error);
+            }
             const errorMessage = handleError(error, 'fetchNovedades');
             setError(errorMessage);
             setNovedades(novedadesDefault);

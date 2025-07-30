@@ -1,123 +1,72 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppContext } from '../../../context/AppContext';
+import { useFormValidation, validationSchemas } from '../../../hooks/useFormValidation';
+import { APP_CONFIG } from '../../../config/constants';
 import './Contacto.css';
 
 const Contacto = () => {
     const { darkMode } = useAppContext();
-    const [formData, setFormData] = useState({
-        nombre: '',
-        email: '',
-        telefono: '',
-        asunto: '',
-        mensaje: ''
-    });
-    const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState(null);
     const [mapLoaded, setMapLoaded] = useState(false);
     
     const formRef = useRef(null);
     const mapRef = useRef(null);
 
-    // Validación en tiempo real
-    const validateField = (name, value) => {
-        switch (name) {
-            case 'nombre':
-                if (!value.trim()) return 'El nombre es requerido';
-                if (value.trim().length < 2) return 'El nombre debe tener al menos 2 caracteres';
-                if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) return 'El nombre solo puede contener letras';
-                return '';
-            case 'email':
-                if (!value) return 'El email es requerido';
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Ingresa un email válido';
-                return '';
-            case 'telefono':
-                if (value && !/^[+]?[0-9\s\-()]{8,15}$/.test(value)) {
-                    return 'Ingresa un teléfono válido';
+    // Usar el hook de validación mejorado
+    const {
+        values: formData,
+        errors,
+        touched,
+        isSubmitting,
+        submitStatus,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        resetForm
+    } = useFormValidation(
+        {
+            nombre: '',
+            email: '',
+            telefono: '',
+            asunto: '',
+            mensaje: ''
+        },
+        validationSchemas.contact
+    );
+
+    const onSubmit = async (values) => {
+        // Simulación de envío con validación adicional
+        await new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // Simular éxito 90% de las veces
+                if (Math.random() > 0.1) {
+                    resolve();
+                } else {
+                    reject(new Error('Error de conexión'));
                 }
-                return '';
-            case 'asunto':
-                if (!value) return 'Selecciona un asunto';
-                return '';
-            case 'mensaje':
-                if (!value.trim()) return 'El mensaje es requerido';
-                if (value.trim().length < 10) return 'El mensaje debe tener al menos 10 caracteres';
-                return '';
-            default:
-                return '';
-        }
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        
-        // Validación en tiempo real
-        const error = validateField(name, value);
-        setErrors(prev => ({
-            ...prev,
-            [name]: error
-        }));
-    };
-
-    const validateForm = () => {
-        const newErrors = {};
-        Object.keys(formData).forEach(key => {
-            const error = validateField(key, formData[key]);
-            if (error) newErrors[key] = error;
+            }, 2000);
         });
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+
+        // Resetear formulario después de éxito
+        resetForm();
+        
+        // Resetear el estado después de 5 segundos
+        setTimeout(() => {
+            // El estado se resetea automáticamente en el hook
+        }, 5000);
     };
 
-    const handleSubmit = async (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
         
-        if (!validateForm()) {
+        const success = await handleSubmit(onSubmit);
+        
+        if (!success) {
             // Enfocar el primer campo con error
             const firstErrorField = Object.keys(errors)[0];
             if (firstErrorField) {
                 const field = formRef.current?.querySelector(`[name="${firstErrorField}"]`);
                 field?.focus();
             }
-            return;
-        }
-
-        setIsSubmitting(true);
-        
-        try {
-            // Simulación de envío con validación adicional
-            await new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    // Simular éxito 90% de las veces
-                    if (Math.random() > 0.1) {
-                        resolve();
-                    } else {
-                        reject(new Error('Error de conexión'));
-                    }
-                }, 2000);
-            });
-
-            setSubmitStatus('success');
-            setFormData({
-                nombre: '',
-                email: '',
-                telefono: '',
-                asunto: '',
-                mensaje: ''
-            });
-            setErrors({});
-            
-            // Resetear el estado después de 5 segundos
-            setTimeout(() => setSubmitStatus(null), 5000);
-        } catch (error) {
-            setSubmitStatus('error');
-            setTimeout(() => setSubmitStatus(null), 5000);
-        } finally {
-            setIsSubmitting(false);
         }
     };
 
@@ -143,38 +92,29 @@ const Contacto = () => {
         {
             icon: 'fas fa-map-marker-alt',
             title: 'Dirección',
-            content: 'Circuito Comercial, Encarnación, Paraguay',
-            link: 'https://www.google.com/maps/place/Joyer%C3%ADa+y+Relojer%C3%ADa+Yema/@-27.3606873,-55.8516896,18z/data=!4m10!1m2!2m1!1syema!3m6!1s0x9457bf8b030d9f63:0x42c969da836d6d04!8m2!3d-27.3606873!4d-55.8497951!15sCgR5ZW1hkgEHamV3ZWxlcqoBUAoNL2cvMTFkeGQyOGw3NgoJL20vMDNiZ3JfEAEqCCIEeWVtYSgOMh4QASIaoCkN0ln3IaDFY7MAZQ3-WvKzRUgfm798fVMyCBACIgR5ZW1h4AEA!16s%2Fg%2F1jgm1mjzq?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D',
+            content: APP_CONFIG.contact.address,
+            link: APP_CONFIG.contact.mapsUrl,
             ariaLabel: 'Ver ubicación en Google Maps'
         },
         {
             icon: 'fas fa-phone',
             title: 'Teléfono',
-            content: '+595 71 123 456',
-            link: 'tel:+59571123456',
+            content: APP_CONFIG.contact.phone,
+            link: `tel:${APP_CONFIG.contact.phone.replace(/\s/g, '')}`,
             ariaLabel: 'Llamar al teléfono'
         },
         {
             icon: 'fas fa-envelope',
             title: 'Email',
-            content: 'info@yemajoyeria.com',
-            link: 'mailto:info@yemajoyeria.com',
+            content: APP_CONFIG.contact.email,
+            link: `mailto:${APP_CONFIG.contact.email}`,
             ariaLabel: 'Enviar email'
         },
         {
             icon: 'fas fa-clock',
             title: 'Horarios',
-            content: 'Lun-Vie: 8:00 - 18:00\nSáb: 8:00 - 12:00'
+            content: `Lun-Vie: ${APP_CONFIG.business.hours.weekdays}\nSáb: ${APP_CONFIG.business.hours.saturday}`
         }
-    ];
-
-    const servicios = [
-        'Venta de Relojes',
-        'Venta de Joyas',
-        'Servicio Técnico',
-        'Mantenimiento',
-        'Garantía',
-        'Financiación'
     ];
 
     return (
@@ -225,7 +165,7 @@ const Contacto = () => {
                             <h2 id="form-title">Enviar Mensaje</h2>
                             <form 
                                 ref={formRef}
-                                onSubmit={handleSubmit} 
+                                onSubmit={handleFormSubmit} 
                                 className="contacto-form"
                                 noValidate
                                 aria-describedby="form-instructions"
@@ -244,13 +184,14 @@ const Contacto = () => {
                                             id="nombre"
                                             name="nombre"
                                             value={formData.nombre}
-                                            onChange={handleInputChange}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
                                             required
                                             placeholder="Tu nombre completo"
                                             aria-describedby={errors.nombre ? 'error-nombre' : undefined}
                                             aria-invalid={!!errors.nombre}
                                         />
-                                        {errors.nombre && (
+                                        {errors.nombre && touched.nombre && (
                                             <div id="error-nombre" className="error-message" role="alert">
                                                 <i className="fas fa-exclamation-circle"></i>
                                                 {errors.nombre}
@@ -266,13 +207,14 @@ const Contacto = () => {
                                             id="email"
                                             name="email"
                                             value={formData.email}
-                                            onChange={handleInputChange}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
                                             required
                                             placeholder="tu@email.com"
                                             aria-describedby={errors.email ? 'error-email' : undefined}
                                             aria-invalid={!!errors.email}
                                         />
-                                        {errors.email && (
+                                        {errors.email && touched.email && (
                                             <div id="error-email" className="error-message" role="alert">
                                                 <i className="fas fa-exclamation-circle"></i>
                                                 {errors.email}
@@ -289,12 +231,13 @@ const Contacto = () => {
                                             id="telefono"
                                             name="telefono"
                                             value={formData.telefono}
-                                            onChange={handleInputChange}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
                                             placeholder="+595 71 123 456"
                                             aria-describedby={errors.telefono ? 'error-telefono' : undefined}
                                             aria-invalid={!!errors.telefono}
                                         />
-                                        {errors.telefono && (
+                                        {errors.telefono && touched.telefono && (
                                             <div id="error-telefono" className="error-message" role="alert">
                                                 <i className="fas fa-exclamation-circle"></i>
                                                 {errors.telefono}
@@ -309,7 +252,8 @@ const Contacto = () => {
                                             id="asunto"
                                             name="asunto"
                                             value={formData.asunto}
-                                            onChange={handleInputChange}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
                                             required
                                             aria-describedby={errors.asunto ? 'error-asunto' : undefined}
                                             aria-invalid={!!errors.asunto}
@@ -322,7 +266,7 @@ const Contacto = () => {
                                             <option value="financiacion">Financiación</option>
                                             <option value="otro">Otro</option>
                                         </select>
-                                        {errors.asunto && (
+                                        {errors.asunto && touched.asunto && (
                                             <div id="error-asunto" className="error-message" role="alert">
                                                 <i className="fas fa-exclamation-circle"></i>
                                                 {errors.asunto}
@@ -339,14 +283,15 @@ const Contacto = () => {
                                         id="mensaje"
                                         name="mensaje"
                                         value={formData.mensaje}
-                                        onChange={handleInputChange}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
                                         required
                                         rows="6"
                                         placeholder="Cuéntanos en qué podemos ayudarte..."
                                         aria-describedby={errors.mensaje ? 'error-mensaje' : undefined}
                                         aria-invalid={!!errors.mensaje}
                                     ></textarea>
-                                    {errors.mensaje && (
+                                    {errors.mensaje && touched.mensaje && (
                                         <div id="error-mensaje" className="error-message" role="alert">
                                             <i className="fas fa-exclamation-circle"></i>
                                             {errors.mensaje}
@@ -411,7 +356,7 @@ const Contacto = () => {
                                 )}
                                 <div className="mapa-overlay">
                                     <a 
-                                        href="https://www.google.com/maps/place/Joyer%C3%ADa+y+Relojer%C3%ADa+Yema/@-27.3606873,-55.8516896,18z/data=!4m10!1m2!2m1!1syema!3m6!1s0x9457bf8b030d9f63:0x42c969da836d6d04!8m2!3d-27.3606873!4d-55.8497951!15sCgR5ZW1hkgEHamV3ZWxlcqoBUAoNL2cvMTFkeGQyOGw3NgoJL20vMDNiZ3JfEAEqCCIEeWVtYSgOMh4QASIaoCkN0ln3IaDFY7MAZQ3-WvKzRUgfm798fVMyCBACIgR5ZW1h4AEA!16s%2Fg%2F1jgm1mjzq?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D" 
+                                        href={APP_CONFIG.contact.mapsUrl}
                                         target="_blank" 
                                         rel="noopener noreferrer"
                                         className="btn-ver-mapa"
@@ -430,7 +375,7 @@ const Contacto = () => {
                 <section className="servicios-section" aria-labelledby="servicios-title">
                     <h2 id="servicios-title">Nuestros Servicios</h2>
                     <div className="servicios-grid" role="list">
-                        {servicios.map((servicio, index) => (
+                        {APP_CONFIG.business.services.map((servicio, index) => (
                             <div key={index} className="servicio-card" role="listitem">
                                 <div className="servicio-icon" aria-hidden="true">
                                     <i className="fas fa-check-circle"></i>
@@ -447,15 +392,15 @@ const Contacto = () => {
                     <div className="horarios-grid" role="list">
                         <div className="horario-card" role="listitem">
                             <h3>Lunes - Viernes</h3>
-                            <p>8:00 AM - 6:00 PM</p>
+                            <p>{APP_CONFIG.business.hours.weekdays}</p>
                         </div>
                         <div className="horario-card" role="listitem">
                             <h3>Sábados</h3>
-                            <p>8:00 AM - 12:00 PM</p>
+                            <p>{APP_CONFIG.business.hours.saturday}</p>
                         </div>
                         <div className="horario-card" role="listitem">
                             <h3>Domingos</h3>
-                            <p>Cerrado</p>
+                            <p>{APP_CONFIG.business.hours.sunday}</p>
                         </div>
                     </div>
                 </section>
